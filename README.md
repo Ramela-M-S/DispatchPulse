@@ -1,4 +1,4 @@
-# 🚚 Delivery Management System
+# 🚚 DispatchPulse
 
 A robust, scalable delivery management system built with **FastAPI**, **PostgreSQL**, **SQLModel**, and **Celery**. The platform streamlines shipment management, delivery partner operations, seller workflows, authentication, and real-time delivery tracking through secure REST APIs and background task processing.
 
@@ -20,7 +20,7 @@ A robust, scalable delivery management system built with **FastAPI**, **PostgreS
 
 ## 🚀 Overview
 
-The Delivery Management System provides a complete backend solution for logistics and shipment management.
+The DispatchPulse provides a complete backend solution for logistics and shipment management.
 
 The application supports:
 
