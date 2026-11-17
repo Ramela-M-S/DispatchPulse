@@ -50,15 +50,11 @@ async def get_current_seller(
         session: SessionDep,
 ):
     user_id = token_data["user"]["id"]
-    print(f"DEBUG: Looking for Seller with UUID: {user_id}")
 
     seller = await session.get(Seller, UUID(user_id))
 
     if seller is None:
-        print(f"DEBUG: Seller with ID {user_id} NOT FOUND in database!")
         raise ClientNotAuthorized()
-
-    print(f"DEBUG: Seller found: {seller.email}")
     return seller
 
 

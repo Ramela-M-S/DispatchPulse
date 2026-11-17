@@ -1,5 +1,21 @@
-import asyncio
+# 👇 ADD THIS COMPATIBILITY FIX AT THE TOP OF tasks.py:
+import redis.connection
+from redis.maint_notifications import MaintNotificationsConfig
 
+redis.connection.DEFAULT_RESP_VERSION = 2
+redis.connection.MaintNotificationsConfig = lambda **kw: MaintNotificationsConfig(enabled=False)
+import kombu.transport.redis as kr
+kr.REFRESH_BINDING = """
+redis.call('SADD', KEYS[1], ARGV[1])
+local now = redis.call('TIME')
+local ms = tonumber(now[1]) * 1000 + math.floor(tonumber(now[2]) / 1000)
+local new_score = ms + tonumber(ARGV[3])
+local old_score = redis.call('ZSCORE', KEYS[2], ARGV[2])
+if not old_score or new_score > tonumber(old_score) then
+    redis.call('ZADD', KEYS[2], new_score, ARGV[2])
+end
+"""
+import asyncio
 from asgiref.sync import async_to_sync
 from celery import Celery
 from fastapi_mail import ConnectionConfig, FastMail, MessageSchema, MessageType

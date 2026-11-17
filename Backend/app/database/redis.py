@@ -4,16 +4,19 @@ from redis.asyncio import Redis
 from Backend.app.config import db_settings
 
 
+# ✅ Change to:
 _token_blacklist = Redis(
     host=db_settings.REDIS_HOST,
     port=db_settings.REDIS_PORT,
     db=0,
+    protocol=2,
 )
 _shipment_verification_codes = Redis(
     host=db_settings.REDIS_HOST,
     port=db_settings.REDIS_PORT,
     db=1,
     decode_responses=True,
+    protocol=2,
 )
 
 async def add_jti_to_blacklist(jti: str):
