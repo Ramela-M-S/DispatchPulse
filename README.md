@@ -143,7 +143,7 @@ Built with scalability and maintainability in mind, the system follows modern ba
 ## 📂 Project Structure
 
 ```text
-Delivery-Management-System/
+DispatchPulse/
 │
 ├── backend/
 │   ├── app/
@@ -173,7 +173,7 @@ Delivery-Management-System/
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/Ramela-M-S/Delivery-Management-System.git
+git clone https://github.com/Ramela-M-S/DispatchPulse.git
 cd Delivery-Management-System
 ```
 
