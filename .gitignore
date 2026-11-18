@@ -1,6 +1,39 @@
+# Environments & IDEs
+.env
 Backend/.env
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Virtual Environments
+.venv/
+env/
+venv/
+ENV/
+
+# Python & Caching
 __pycache__/
+*.py[cod]
+*$py.class
 *.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs & Databases
 *.log
 *.db
-.env
+*.sqlite
+*.sqlite3
+file.log
+sqlite.db
+Backend/file.log
+Backend/sqlite.db
+Backend/structure.txt
+report.json
+
+# Node / Frontend
+node_modules/
+dist/
+build/

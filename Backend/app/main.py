@@ -9,7 +9,7 @@ from Backend.app.core.exceptions import add_exception_handlers
 # from app.core.logging import logger
 
 description = """
-Delivery Management System for sellers and delivery agents
+DispatchPulse
 
 ### Seller
 - Submit shipment effortlessly
@@ -40,7 +40,7 @@ def custom_generate_unique_id_function(route: APIRoute) -> str:
     return route.name
 
 app = FastAPI(
-    title="FastShip",
+    title="DispatchPulse",
     description=description,
 
     version="0.1.0",
@@ -65,7 +65,7 @@ add_exception_handlers(app)
 
 @app.get('/')
 def root():
-    return {"message": "Welcome to FastShip API!"}
+    return {"message": "Welcome to DispatchPulse API!"}
 
 # Scalar API Documentation
 @app.get("/scalar", include_in_schema=False)

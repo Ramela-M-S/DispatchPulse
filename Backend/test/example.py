@@ -1,7 +1,11 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database.models import DeliveryPartner, Location, Seller
-from app.services.user import password_context
+try:
+    from Backend.app.database.models import DeliveryPartner, Location, Seller
+    from Backend.app.services.user import password_context
+except ImportError:
+    from app.database.models import DeliveryPartner, Location, Seller
+    from app.services.user import password_context
 
 SELLER = {
     "name": "RainForest",
@@ -18,10 +22,10 @@ DELIVERY_PARTNER = {
     "serviceable_zip_codes": [11001, 11002, 11003, 11004, 11005],
 }
 SHIPMENT = {
-    "content": "Bananas",
+    "content": "Electronics Package",
     "weight": 1.25,
     "destination": 11004,
-    "client_contact_email": "py@xmailg.one",
+    "client_contact_email": "customer@dispatchpulse.internal",
 }
 
 

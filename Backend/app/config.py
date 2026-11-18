@@ -13,7 +13,7 @@ _base_config = SettingsConfigDict(
 
 
 class AppSettings(BaseSettings):
-    APP_NAME: str = "FastShip"
+    APP_NAME: str = "DispatchPulse"
     APP_DOMAIN: str = "localhost:8000"
     FRONTEND_URL: str = "http://localhost:5173"
 

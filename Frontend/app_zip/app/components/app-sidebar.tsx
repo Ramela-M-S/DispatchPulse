@@ -39,7 +39,7 @@ export function AppSidebar({ currentRoute, ...props }: { currentRoute: string } 
                   <Package className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-semibold">FastShip</span>
+                  <span className="font-semibold">DispatchPulse</span>
                   <span className="">DMS</span>
                 </div>
               </a>

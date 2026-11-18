@@ -1,0 +1,99 @@
+version: "3.8"
+
+services:
+  # FastAPI Application Server
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dispatchpulse_api
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_SERVER=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=dispatchpulse_db
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET=super_secret_production_key_change_in_env
+      - JWT_ALGORITHM=HS256
+      - MAIL_USERNAME=notifications@dispatchpulse.io
+      - MAIL_PASSWORD=app_password_here
+      - MAIL_FROM=notifications@dispatchpulse.io
+      - MAIL_PORT=587
+      - MAIL_SERVER=smtp.gmail.com
+      - TWILIO_SID=AC_dummy_sid_placeholder
+      - TWILIO_AUTH_TOKEN=dummy_token_placeholder
+      - TWILIO_NUMBER=+1234567890
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    command: ["uvicorn", "Backend.app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  # Distributed Celery Background Worker
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dispatchpulse_worker
+    restart: always
+    environment:
+      - POSTGRES_SERVER=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=dispatchpulse_db
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET=super_secret_production_key_change_in_env
+      - JWT_ALGORITHM=HS256
+      - MAIL_USERNAME=notifications@dispatchpulse.io
+      - MAIL_PASSWORD=app_password_here
+      - MAIL_FROM=notifications@dispatchpulse.io
+      - MAIL_PORT=587
+      - MAIL_SERVER=smtp.gmail.com
+      - TWILIO_SID=AC_dummy_sid_placeholder
+      - TWILIO_AUTH_TOKEN=dummy_token_placeholder
+      - TWILIO_NUMBER=+1234567890
+    depends_on:
+      - redis
+      - postgres
+    command: ["celery", "-A", "Backend.app.worker.tasks.app", "worker", "--loglevel=info"]
+
+  # PostgreSQL Relational Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: dispatchpulse_db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=dispatchpulse_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d dispatchpulse_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Redis Message Broker & High-Speed In-Memory Store
+  redis:
+    image: redis:7-alpine
+    container_name: dispatchpulse_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
